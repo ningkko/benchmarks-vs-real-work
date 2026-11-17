@@ -1,0 +1,7 @@
+phase,default line only,names model,no Claude line,pull requests
+P0,73.3,0.0,26.7,150.0
+P1,83.7,0.7,15.6,135.0
+P2,67.3,0.6,32.1,159.0
+P3,76.0,1.8,22.2,167.0
+upgrade,77.6,1.2,21.2,608.0
+all,76.2,1.0,22.8,1219.0

@@ -1,0 +1,27 @@
+pull requests read 17317; missing 269 (1.6%)
+with CI 14546 (85.3%); CI failure among them 19.3%; with a test/build check 9899 (58.1%), test/build failure 9.2%
+checks: 172264; test/build 24.2%, excluded kinds 17.3%, neither (left out of test/build) 58.5%
+
+== upgrade events: change in each outcome, new minus old model, developer fixed effects (percentage points)
+ event      old        new  prs  missing_pct  ci_prs  ci_devs  has_ci_old  has_ci_new  fail_old  fail_new  ci_fail_est  ci_fail_se  tb_fail_est  tb_fail_se  merged7_ci_est  merged7_ci_se  inter_est  inter_se
+     3 Opus 4.6   Opus 4.7 1516          1.1    1216      102        83.5        78.7      19.7      13.3         -1.5         4.5          0.8         3.2            -6.7            3.0       14.4      16.2
+     4 Opus 4.7   Opus 4.8 3482          0.6    3108      103        82.0        95.5      36.5      26.5          5.4         2.2         -7.3         5.0             0.1            0.9        1.0       7.2
+     6 Opus 4.8     Opus 5 5477          2.9    4467      340        84.5        83.3      22.8      11.0         -3.3         1.9         -1.7         1.8            -0.6            0.9       -7.2       5.8
+     7   Opus 5   Opus 5.5 4000          1.4    3249      374        83.5        81.3       9.9      11.7          0.1         1.1          1.8         1.3            -1.4            1.9        3.2       3.9
+     8 Sonnet 5 Sonnet 5.5  967          0.1     843      102        84.9        89.7      12.5      22.8          3.3         4.0         -0.4         2.0            -5.1            2.5       18.5      17.2
+
+== pooled over the five events (inverse-variance; DerSimonian-Laird as sensitivity)
+ci_fail      FE +0.30 [-1.38, +1.98] p=0.729 | RE +0.64 [-2.48, +3.75] I2=0.57
+tb_fail      FE +0.16 [-1.55, +1.88] p=0.851 | RE -0.06 [-2.12, +2.00] I2=0.20
+has_ci       FE +1.68 [-0.02, +3.38] p=0.052 | RE +1.60 [-0.46, +3.66] I2=0.20
+merged7_ci   FE -0.88 [-2.04, +0.28] p=0.137 | RE -1.53 [-3.43, +0.37] I2=0.50
+inter        FE +1.12 [-4.49, +6.73] p=0.696 | RE +1.12 [-4.49, +6.73] I2=0.00
+missing by side (%): old 1.3 new 1.0
+
+== suspension supplement (2,019 sampled pull requests; treated developers only; no comparison group)
+read 2001; with CI 1800 (90.0%)
+CI failure % by phase (PRs with CI): {'P0': 29.0, 'P1': 14.4, 'P2': 8.2, 'P3': 40.2}
+ci_fail: reversal (P1+P3)/2 - P2 +9.2 [-3.2, +21.6] (n=1800, developers 153); P0 vs P2 +12.7 [-16.7, +42.1]
+ci_fail: as used, Fable 5 vs other, developer x repository FE +2.6 [-3.9, +9.1]
+tb_fail: reversal (P1+P3)/2 - P2 +6.4 [+0.1, +12.8] (n=1196, developers 111); P0 vs P2 +6.8 [-5.6, +19.2]
+tb_fail: as used, Fable 5 vs other, developer x repository FE +2.2 [-3.1, +7.5]

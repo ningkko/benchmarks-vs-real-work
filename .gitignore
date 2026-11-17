@@ -1,0 +1,5 @@
+__pycache__/
+.DS_Store
+build/
+private_do_not_share/
+.github_token

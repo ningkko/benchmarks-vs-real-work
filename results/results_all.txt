@@ -1,0 +1,617 @@
+################ descriptives
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+treated developers 297 | treated PRs P0-P3 6352
+treated developers active by phase: {'P0': 68, 'P1': 297, 'P2': 84, 'P3': 78}
+treated developers with PRs in both P2 and P3: 52
+control developers 8908 | control PRs 34013 | control days 47
+model share by phase (treated, %):
+model  Fable 5  Opus 4.6  Opus 4.7  Opus 4.8  Sonnet 4.6  Sonnet 5  untagged
+phase                                                                       
+P0         0.1       2.1      25.1      63.8         6.1       0.0       2.7
+P1        82.3       0.4       2.0      11.8         0.6       0.0       2.8
+P2         0.9       7.0       0.4      74.6         1.6       0.0      15.2
+P3        26.9       2.5       0.1      31.0         0.8       4.5      33.7
+P3 untagged PRs 596 top developer share 82%
+own-repo share by phase (treated, %): {'P0': 83.6, 'P1': 69.1, 'P2': 72.1, 'P3': 72.0}
+write-access share (treated, %): 84.0; PRs with write access 5336, without 1016; developers without write access 56
+outside own repo: treated PRs 1656
+P2 merged within 7 days (treated): 91.3%
+Fable-tagged PRs per 6h, Jun 12-13: {Timestamp('2026-06-12 00:00:00+0000', tz='UTC'): 111, Timestamp('2026-06-12 06:00:00+0000', tz='UTC'): 125, Timestamp('2026-06-12 12:00:00+0000', tz='UTC'): 119, Timestamp('2026-06-12 18:00:00+0000', tz='UTC'): 129, Timestamp('2026-06-13 00:00:00+0000', tz='UTC'): 61, Timestamp('2026-06-13 06:00:00+0000', tz='UTC'): 22, Timestamp('2026-06-13 12:00:00+0000', tz='UTC'): 24, Timestamp('2026-06-13 18:00:00+0000', tz='UTC'): 10}
+################ twfe
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+[per PR] merged_7d        vs suspension: P0 (before release) -2.6 [-6.2, +1.1]  P1 (Fable on) +0.7 [-3.7, +5.1]  P3 (Fable back) +2.2 [-1.6, +6.1]
+[per PR] merged_7d        reversal contrast (P1+P3)/2 - P2: +1.4 [-1.4, +4.3]
+[per PR] merged_7d        Fable-tagged PR (as used): +2.7 [-0.7, +6.1]
+[per PR] closed_unmerged  vs suspension: P0 (before release) +3.1 [-0.2, +6.4]  P1 (Fable on) -0.2 [-4.1, +3.8]  P3 (Fable back) -0.7 [-4.3, +2.8]
+[per PR] closed_unmerged  reversal contrast (P1+P3)/2 - P2: -0.5 [-3.0, +2.1]
+[per PR] closed_unmerged  Fable-tagged PR (as used): -2.0 [-4.9, +0.9]
+[per developer] merged_7d        vs suspension: P0 (before release) -2.0 [-13.7, +9.8]  P1 (Fable on) +2.7 [-9.3, +14.7]  P3 (Fable back) +4.7 [-4.0, +13.5]
+[per developer] merged_7d        reversal contrast (P1+P3)/2 - P2: +3.7 [-5.5, +12.9]
+[per developer] merged_7d        Fable-tagged PR (as used): +0.1 [-7.2, +7.5]
+[per developer] closed_unmerged  vs suspension: P0 (before release) +2.8 [-6.9, +12.4]  P1 (Fable on) -2.4 [-11.8, +7.1]  P3 (Fable back) +0.1 [-6.4, +6.6]
+[per developer] closed_unmerged  reversal contrast (P1+P3)/2 - P2: -1.1 [-8.4, +6.1]
+[per developer] closed_unmerged  Fable-tagged PR (as used): -1.1 [-6.2, +4.1]
+################ robust
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+== 1. Outside the author's own repository
+rows 11654 treated PRs 1656 treated devs 111
+  merged_7d        reversal +1.3 [-5.0, +7.6] | as used +9.2 [+2.0, +16.3]
+  closed_unmerged  reversal +1.6 [-3.4, +6.6] | as used -6.7 [-12.7, -0.6]
+
+== 2. Room to move during the suspension (treated, P2)
+  merged within 7 days: all 91.3%, own repo 91.2%, other repos 91.6%
+  share of treated PRs in own repo by phase: {'P0': 83.6, 'P1': 69.1, 'P2': 72.1, 'P3': 72.0}
+
+== 3. Size proxies, Fable- minus Opus 4.8-tagged, within treated developers
+  blen      n=103 Opus 4.8 mean  1644.82  diff   -95.49 [-328.07, +132.69]
+  files     n=103 Opus 4.8 mean     2.09  diff    -0.21 [-0.82, +0.39]
+  checks    n=103 Opus 4.8 mean     0.34  diff    +0.00 [-0.16, +0.17]
+  is_feat   n=103 Opus 4.8 mean     0.26  diff    -0.03 [-0.09, +0.04]
+  is_fix    n=103 Opus 4.8 mean     0.25  diff    -0.02 [-0.10, +0.05]
+  comments  n=103 Opus 4.8 mean     0.98  diff    +0.07 [-0.30, +0.52]
+
+== 4. Pooled comparison of every tagged PR on matched days (leaderboard view)
+  Jun 10-12 (P1): Fable n=1271 devs=304 merged7 96.0% closed 2.7% own 67.3% | Opus 4.8 n=1050 devs=299 merged7 92.1% closed 5.5% own 57.5%
+      developer-weighted merged7: Fable 89.9% vs Opus 4.8 87.3%
+   Jul 7-9 (P3) no Fable data yet
+
+== 5. Intraclass correlation of merging across developers (suspension sample)
+  ICC 0.42 (3667 developers, 34827 PRs)
+################ decider
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+treated PRs by author association: {'OWNER': 4696, 'CONTRIBUTOR': 1005, 'MEMBER': 376, 'COLLABORATOR': 264, 'NONE': 11}
+external share of treated PRs by phase: {'P0': 7.9, 'P1': 16.5, 'P2': 18.3, 'P3': 20.0}
+merged within 7 days, treated P2: external 92.6%, write access 91.1%
+
+[write access (can self-merge)] units=developer; treated PRs 5336, treated units 256
+    merged_7d: reversal +0.7 [-2.3, +3.6], as used +0.9 [-1.6, +3.4]
+    closed_unmerged: reversal +0.6 [-2.1, +3.2], as used -0.2 [-2.0, +1.6]
+
+[write access (can self-merge)] units=developer x repo; treated PRs 5336, treated units 377
+    merged_7d: reversal +1.3 [-1.6, +4.1], as used +1.0 [-1.7, +3.7]
+    closed_unmerged: reversal +0.5 [-2.1, +3.1], as used +0.1 [-1.8, +2.1]
+
+[no write access (someone else merges)] units=developer; treated PRs 1016, treated units 56
+    merged_7d: reversal +5.4 [-3.9, +14.6], as used +11.6 [+2.0, +21.2]
+    closed_unmerged: reversal -4.8 [-10.8, +1.3], as used -11.5 [-19.5, -3.4]
+
+[no write access (someone else merges)] units=developer x repo; treated PRs 1016, treated units 123
+    merged_7d: reversal +6.1 [-4.1, +16.4], as used +13.6 [+3.8, +23.4]
+    closed_unmerged: reversal -3.6 [-10.3, +3.1], as used -12.7 [-20.9, -4.5]
+
+external: treated developers with both Fable and Opus 4.8 PRs: 23 PRs: 763
+          prs  devs  merged7  closed
+model                               
+Fable 5   311    54    0.942   0.042
+Opus 4.8  571    24    0.937   0.030
+################ repo_fe
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+all repos              merged_7d        as used, developer x repo FE: +3.0 [-0.7, +6.7]  (units 11361, PRs 40365)
+all repos              closed_unmerged  as used, developer x repo FE: -1.8 [-4.9, +1.3]  (units 11361, PRs 40365)
+other people's repos   merged_7d        as used, developer x repo FE: +11.0 [+2.7, +19.4]  (units 3016, PRs 11654)
+other people's repos   closed_unmerged  as used, developer x repo FE: -7.6 [-15.0, -0.1]  (units 3016, PRs 11654)
+################ final_results
+February data PRs by model: {'Opus 4.6': 15983, 'Sonnet 4.5': 4933, 'Opus 4.5': 3565, 'Sonnet 4.6': 3002} developers: {'Opus 4.5': 1246, 'Opus 4.6': 3733, 'Sonnet 4.5': 1715, 'Sonnet 4.6': 1069}
+
+Opus 4.5 -> Opus 4.6: 250 developers, 1359 PRs before, 2824 after
+  merged_7d        +2.1 [-3.3, +7.2] n=250
+  closed_unmerged  -2.0 [-6.2, +2.0] n=250
+  merged_1h        +3.8 [-1.9, +9.4] n=250
+  own_repo         +0.1 [-2.9, +3.2] n=250
+  comments         diff=-0.01
+  pooled, all developers: merged_7d 80.0 vs 82.7; merged_1h 50.0 vs 59.1; outside own repo 48.0 vs 55.9
+
+Sonnet 4.5 -> Sonnet 4.6: 49 developers, 521 PRs before, 457 after
+  merged_7d        -4.6 [-15.6, +5.6] n=49
+  closed_unmerged  +0.4 [-7.7, +9.1] n=49
+  merged_1h        -1.4 [-13.8, +11.1] n=49
+  own_repo         +2.1 [-0.1, +6.2] n=49
+  comments         diff=+0.31
+  pooled, all developers: merged_7d 81.8 vs 81.6; merged_1h 54.0 vs 60.3; outside own repo 38.7 vs 37.6
+
+ICC(1) of merged within 7 days across developers: 0.41 (2828 developers with >=2 PRs, 23325 PRs)
+own repo vs not, merged_7d: 89.9 vs 77.6; merged within 1h: 69.0 vs 48.9
+
+Suspension: treated developers 297 | control developers with PRs 95
+          prs                   devs             
+phase      P0    P1    P2    P3   P0   P1  P2  P3
+group                                            
+control   504    39    95    65   95    8  20   6
+treated  1433  1523  1629  1767   68  297  84  78
+  treated  intro    (P0->P1, oriented Fable minus Opus) merged_7d        +2.0 [-5.4, +9.5] n=68
+  treated  intro    (P0->P1, oriented Fable minus Opus) closed_unmerged  -1.4 [-7.7, +4.7] n=68
+  treated  removal  (P1->P2, oriented Fable minus Opus) merged_7d        +3.5 [-2.5, +9.7] n=84
+  treated  removal  (P1->P2, oriented Fable minus Opus) closed_unmerged  -2.5 [-7.8, +2.4] n=84
+  treated  return   (P2->P3, oriented Fable minus Opus) merged_7d        -0.1 [-6.9, +7.4] n=52
+  treated  return   (P2->P3, oriented Fable minus Opus) closed_unmerged  +0.8 [-4.2, +6.3] n=52
+  control  intro    (P0->P1, oriented Fable minus Opus) merged_7d        -11.2 [-36.9, +2.8] n=8
+  control  intro    (P0->P1, oriented Fable minus Opus) closed_unmerged  +11.2 [-2.8, +36.9] n=8
+  control  removal  (P1->P2, oriented Fable minus Opus) merged_7d        +6.7 [-0.0, +20.0] n=5
+  control  removal  (P1->P2, oriented Fable minus Opus) closed_unmerged  -0.0 [-0.0, -0.0] n=5
+  control  return   (P2->P3, oriented Fable minus Opus) merged_7d        +8.4 [-4.4, +24.0] n=5
+  control  return   (P2->P3, oriented Fable minus Opus) closed_unmerged  -4.0 [-12.0, +0.0] n=5
+
+Calendar control (Opus 4.8, never Fable): PRs and developers by phase
+phase    P0   P1     P2     P3
+prs    4462  909  19609  14363
+devs    983  290   5392   3902
+  control intro    merged_7d        -2.9 [-9.8, +3.8] n=72   | DiD treated minus control +4.9 [-5.7, +15.0] n=68 (control n=72)
+  control intro    closed_unmerged  +3.6 [-1.8, +10.0] n=72   | DiD treated minus control -5.0 [-13.6, +3.6] n=68 (control n=72)
+  control removal  merged_7d        -3.1 [-11.3, +5.0] n=78   | DiD treated minus control +6.6 [-3.6, +16.6] n=84 (control n=78)
+  control removal  closed_unmerged  +2.3 [-4.5, +9.5] n=78   | DiD treated minus control -4.8 [-13.6, +3.6] n=84 (control n=78)
+  control return   merged_7d        +0.8 [-1.2, +2.8] n=866   | DiD treated minus control -0.9 [-7.7, +6.4] n=52 (control n=866)
+  control return   closed_unmerged  -0.8 [-2.2, +0.5] n=866   | DiD treated minus control +1.6 [-4.1, +7.2] n=52 (control n=866)
+  per-protocol Fable minus Opus 4.8 merged_7d        +0.9 [-4.7, +6.0] n=103
+  per-protocol Fable minus Opus 4.8 closed_unmerged  -1.7 [-5.3, +1.9] n=103
+  per-protocol comments diff +0.07
+  pooled P3 (all developers in data): merged_7d {'Fable 5': 91.6, 'Opus 4.8': 94.2} closed {'Fable 5': 7.6, 'Opus 4.8': 4.0} {'Fable 5': 476, 'Opus 4.8': 607}
+model  Fable 5  Opus 4.6  Opus 4.7  Opus 4.8  Sonnet 4.6  Sonnet 5  untagged
+phase                                                                       
+P0         0.1       2.1      25.1      63.8         6.1       0.0       2.7
+P1        82.3       0.4       2.0      11.8         0.6       0.0       2.8
+P2         0.9       7.0       0.4      74.6         1.6       0.0      15.2
+P3        26.9       2.5       0.1      31.0         0.8       4.5      33.7
+################ leaderboard
+      date  n_fable  dev_fable  n_opus  dev_opus  merged_fable  merged_opus  diff    lo   hi  devw_diff  own_fable  own_opus  ext_fable  ext_opus
+2026-06-10      364        119     382       136          95.3         92.4   2.9  -2.9  9.0        4.0       56.9      49.0       21.2      17.3
+2026-06-11      423        118     377       110          96.2         96.3  -0.1  -3.5  4.3        0.8       75.2      66.3       14.9      10.1
+2026-07-08      940        497    1674       538          89.0         93.2  -4.2  -7.4 -0.9       -2.5       75.9      60.7       14.9      28.9
+2026-07-15      752        392    1044       396          88.6         89.8  -1.3  -6.0  3.5       -5.2       82.7      66.8        8.2      18.2
+2026-07-22      553        318    1095       551          89.9         93.2  -3.3  -6.8  0.2       -6.0       79.0      69.6       14.1      20.8
+2026-07-29      411        170     249       148          85.4         84.7   0.7  -7.7  8.6       -0.5       72.0      74.7       20.9      15.7
+2026-08-05      473        204     229        92          88.6         88.2   0.4  -9.7 12.9        4.7       65.8      56.8       14.8      34.5
+2026-08-12      396        144     188        86          91.4         89.9   1.5  -5.3  8.9        5.5       63.6      80.9       11.1      17.0
+2026-08-19      486        183     196        71          91.4         95.4  -4.1 -10.3  2.2        0.9       72.2      75.0       12.3      13.8
+
+developers in both groups on these days: 248 of 3473
+################ pooled_vs_within
+Jul 8 - Aug 19, 7 days: Fable 4011 PRs / 1683 devs, merged7 89.2%; Opus 4.8 4675 PRs / 1664 devs, merged7 91.7%
+pooled difference -2.6 [-4.6, -0.5]
+closed without merge: Fable 3.6% vs Opus 4.8 3.7%
+own repo share: Fable 74.3% vs Opus 4.8 66.1%; lacks write access: Fable 13.5% vs 23.1%
+pooled, day fixed effects only (clustered by developer): -2.3 [-4.2, -0.3]
+developers with both models: 226
+within developer (+ day FE): -2.1 [-4.9, +0.6]
+within developer and repository (+ day FE): -0.9 [-3.5, +1.7]
+
+-- by who can merge, Jul 8 - Aug 19 sample --
+author has write access    PRs 7068 (Fable 3471, Opus 3597); merged7 89.3 vs 92.6; pooled+day -3.3 [-5.3, -1.3]; within dev -2.1 [-4.8, +0.5]; within dev x repo -1.7 [-4.2, +0.9]
+author lacks write access  PRs 1618 (Fable 540, Opus 1078); merged7 88.0 vs 88.7; pooled+day +2.2 [-3.2, +7.6]; within dev +0.6 [-5.6, +6.8]; within dev x repo +3.0 [-4.9, +10.9]
+################ twfe_feb
+rows 27483 developers 6986 days 128
+[per PR] merged_7d        Opus 4.6 vs 4.5 +6.2 [-0.4, +12.7] | Sonnet 4.6 vs 4.5 +7.5 [-0.8, +15.7] | Opus vs Sonnet family -0.2 [-3.7, +3.3]
+[per PR] closed_unmerged  Opus 4.6 vs 4.5 -6.1 [-12.2, +0.1] | Sonnet 4.6 vs 4.5 -7.4 [-14.8, +0.1] | Opus vs Sonnet family -0.9 [-4.1, +2.4]
+[per developer] merged_7d        Opus 4.6 vs 4.5 -0.1 [-8.4, +8.1] | Sonnet 4.6 vs 4.5 -2.5 [-11.9, +6.9] | Opus vs Sonnet family -1.0 [-6.9, +5.0]
+[per developer] closed_unmerged  Opus 4.6 vs 4.5 -1.2 [-8.2, +5.9] | Sonnet 4.6 vs 4.5 +1.9 [-6.0, +9.9] | Opus vs Sonnet family +0.2 [-5.2, +5.6]
+################ power
+removal   developers   84  SD of developer differences  29.6 points  -> developers needed for 3 points: 764
+as_used   developers  103  SD of developer differences  27.2 points  -> developers needed for 3 points: 644
+feb_opus  developers  250  SD of developer differences  41.9 points  -> developers needed for 3 points: 1528
+################ events
+ event       date        old        new  n_old  n_new  switchers  prs  ext_prs  ext_switchers  merged_before  merged_after  all_est  all_se  self_est  self_se  ext_est  ext_se  inter_est  inter_se  pred
+     1 2026-02-05   Opus 4.5   Opus 4.6    677   1112         54  443       82             10           78.6          88.3      1.7     3.5      -1.3      3.7     10.5     5.1       11.8       6.4   NaN
+     2 2026-02-17 Sonnet 4.5 Sonnet 4.6    578    270          9  104       40              2           70.2          77.2      5.1    28.7     -31.2     13.7     66.4    12.5       97.6      18.5   NaN
+     3 2026-04-16   Opus 4.6   Opus 4.7   2473   2795        115 1516      286             26           88.5          87.7     -4.1     2.9      -3.1      2.4     -9.9    11.5       -6.8      11.6   2.7
+     4 2026-05-28   Opus 4.7   Opus 4.8   4869   3513        113 3482      788             24           92.6          94.5     -0.1     0.9       0.6      1.0     -2.3     2.5       -2.9       2.7   1.0
+     5 2026-06-30 Sonnet 4.6   Sonnet 5   3676   4037        193 1440       69              8           96.1          96.5      1.8     1.3       1.4      1.2      8.1     8.3        6.7       8.4   0.5
+     6 2026-07-24   Opus 4.8     Opus 5   7425   6489        404 5477     1070             47           97.3          95.3     -0.8     0.8      -1.2      0.7      1.9     3.5        3.1       3.6   0.9
+     7 2026-09-22     Opus 5   Opus 5.5   6691   8720        458 4000      510             50           95.0          93.1     -1.7     2.2      -1.2      2.0     -3.7     8.2       -2.5       8.4   2.5
+     8 2026-09-28   Sonnet 5 Sonnet 5.5   4777   1796        118  967      195             14           96.9          94.4     -3.5     2.2      -4.5      2.5      1.7     3.8        6.2       4.6   1.5
+
+events meeting the pre-specified rule (>=10 switchers without write access in both windows): [1, 3, 4, 6, 7, 8]
+PRIMARY interaction (no write access minus write access): FE +1.08 [-2.43, +4.59] p=0.5463 | RE +1.86 [-2.85, +6.56] p=0.4399 | I2=0.31 k=6
+change, author lacks write access: FE +0.49 [-2.73, +3.71] p=0.7644 | RE +0.85 [-3.10, +4.81] p=0.6723 | I2=0.22 k=6
+change, author has write access: FE -0.95 [-2.00, +0.10] p=0.0763 | RE -0.96 [-2.06, +0.13] p=0.0853 | I2=0.03 k=6
+change, all pull requests (all events): FE -0.41 [-1.38, +0.56] p=0.4038 | RE -0.42 I2=0.09
+H3 events [3, 4, 5, 6, 7, 8]: observed pooled -0.46 (SE 0.50) vs proportional-transfer prediction +1.03; difference -1.49 [-2.47, -0.51] p=0.0028
+
+-- strict reading of the reporting rule: events below the threshold left out of every pool --
+change, all pull requests (events [1, 3, 4, 6, 7, 8]): FE -0.82 [-1.88, +0.23] p=0.1251 | RE -0.82 [-1.88, +0.23] I2=0.00
+H3 events [3, 4, 6, 7, 8]: observed pooled -0.88 (SE 0.54) vs prediction +1.14; difference -2.02 [-3.09, -0.96] p=0.0002
+switchers total 1464 | PRs total 17429 | included events switchers 1262 | included external switchers 171
+################ calendar_check
+ event comparison  switchers  sw_prs  stayers  stay_prs  stay_before  stay_after  sw_change  sw_se  stay_change  stay_se   did  did_se  pred
+     1 Sonnet 4.5         54     443       17       129        81.69       68.97       1.65   3.50       -14.00     8.89 15.45    8.28   NaN
+     3 Sonnet 4.6        115    1516       27       260        92.41       86.09      -4.05   2.89        -8.46     5.26  5.44    5.06  2.69
+     4 Sonnet 4.6        113    3482       27       286        87.60       78.18      -0.13   0.90         0.26     8.45 -0.99    8.19  1.02
+     5   Opus 4.8        193    1440      418      4991        94.78       94.14       1.81   1.25        -0.32     0.83  1.89    1.41  0.48
+     6   Sonnet 5        404    5477      256      2213        92.64       92.81      -0.80   0.79        -0.15     1.12 -0.51    1.30  0.88
+     7   Sonnet 5        458    4000      210      1911        95.37       93.68      -1.68   2.17         0.20     1.07 -2.43    2.60  2.55
+     8   Opus 5.5        118     967      424      3899        94.90       94.69      -3.47   2.23        -1.07     0.65 -3.40    2.32  1.53
+included (pre-specified inclusion rule) events [1, 3, 4, 6, 7, 8]: calendar-controlled change FE -0.87 [-2.84, +1.09] p=0.3823 | RE -0.71 I2=0.29
+   stayers' own change FE -0.72 [-1.69, +0.26]
+benchmark comparison, strict events [3, 4, 6, 7, 8]: calendar-controlled change FE -1.12 [-3.09, +0.86] p=0.2682 | RE -1.12 I2=0.00
+   vs proportional-transfer prediction +1.33: difference -2.44 [-4.42, -0.47] p=0.0154
+   stayers' own change FE -0.67 [-1.65, +0.30]
+benchmark comparison, lenient events [3, 4, 5, 6, 7, 8]: calendar-controlled change FE -0.10 [-1.71, +1.51] p=0.9001 | RE -0.21 I2=0.18
+   vs proportional-transfer prediction +1.04: difference -1.14 [-2.75, +0.47] p=0.1635
+   stayers' own change FE -0.58 [-1.41, +0.26]
+################ posthoc
+== E1 room to move: switchers' PRs in the week before each upgrade
+ event  prs  switchers  merged7  merged1h  write  all_merged_devs
+     1  220         54     78.6      50.9   80.5             72.2
+     3  757        115     88.5      60.6   76.0             73.0
+     4 1469        113     92.6      74.7   65.0             74.3
+     6 3141        404     97.3      84.7   74.9             86.4
+     7 1979        458     95.0      74.8   85.7             86.9
+     8  483        118     96.9      81.6   85.5             88.1
+all six: PRs 8049, merged within 7 days 94.5%, within 1 hour 77.1%, write access 76.7%; switchers who merged every PR that week 83.8% of 1262
+== description length (characters): calendar-controlled change -75.17 [-199.04, +48.70] p=0.2343 (RE -136.97, I2=0.96, k=5) events [3, 4, 6, 7, 8]
+== files named in the description: calendar-controlled change -0.07 [-0.33, +0.19] p=0.5864 (RE -0.19, I2=0.84, k=5) events [3, 4, 6, 7, 8]
+== title starts with feat (points): calendar-controlled change -0.9 [-3.6, +1.8] p=0.5217 (RE -4.6, I2=0.72, k=6) events [1, 3, 4, 6, 7, 8]
+== merged within 1 hour (points): calendar-controlled change +0.8 [-2.1, +3.8] p=0.5837 (RE +0.8, I2=0.00, k=6) events [1, 3, 4, 6, 7, 8]
+== closed without merge (points): calendar-controlled change +0.5 [-1.3, +2.3] p=0.5721 (RE +0.5, I2=0.00, k=6) events [1, 3, 4, 6, 7, 8]
+== comments per PR: calendar-controlled change +0.03 [-0.06, +0.12] p=0.5258 (RE +0.02, I2=0.32, k=6) events [1, 3, 4, 6, 7, 8]
+== E4 developers with at least one PR not merged within 7 days in the week before
+ event  switchers  stayers  sw_before    est    se  pred
+     1         15        4      54.37  36.59 14.00   NaN
+     3         31        5      82.87   8.34 17.39  4.01
+     4         29       11      89.20 -21.81  7.64  1.48
+     6         55       34      91.53   1.29  4.34  2.75
+     7         60       40      77.42   2.72  5.01 11.62
+     8         14       48      76.19   0.58  9.93 11.71
+   pooled, included events [1, 3, 4, 6, 7, 8]: +0.2 [-5.3, +5.6] p=0.9483 (RE +1.4, I2=0.68, k=6)
+   strict benchmark set [3, 4, 6, 7, 8]: change -1.32 vs prediction +6.20; difference -7.52 [-13.10, -1.95] p=0.0082
+== E5 equal weight per developer (calendar-controlled 7-day merging)
+ event    est   se  sw_before_devmean  pred
+     1  21.47 9.46              82.18   NaN
+     3  14.27 8.28              87.41  2.94
+     4 -13.02 9.42              89.77  1.40
+     6  -0.83 1.84              94.34  1.84
+     7   2.57 2.52              92.38  3.92
+     8  -1.81 2.84              94.57  2.67
+   pooled, included events: +0.4 [-2.1, +2.9] p=0.7623 (RE +1.5, I2=0.57, k=6)
+   strict benchmark set [3, 4, 6, 7, 8]: change -0.01 vs prediction +2.57; difference -2.58 [-5.11, -0.05] p=0.0456
+################ volume
+ event  switchers  stayers  sw_dropped  st_dropped  sw_before  sw_after  st_before  st_after  d_open_est  d_open_se  d_open_sw  d_open_st  d_merged_est  d_merged_se  d_merged_sw  d_merged_st
+     1         54       17           2           0      4.333     4.759      4.412     3.706       0.096      0.310      0.251      0.155         0.283        0.222        0.222       -0.061
+     3        115       27           4           0      6.061     6.209      5.630     4.889       0.283      0.212      0.107     -0.176         0.290        0.171        0.042       -0.248
+     4        113       27           2           1     10.407    20.381      4.444     6.296      -0.100      0.228      0.089      0.188        -0.106        0.165        0.077        0.183
+     6        404      256           6           4      9.262     7.621      4.504     4.219      -0.045      0.084     -0.179     -0.134        -0.059        0.066       -0.148       -0.089
+     7        458      210           7           7      5.548     5.236      5.595     3.790       0.087      0.081     -0.067     -0.154         0.081        0.062       -0.041       -0.121
+     8        118      424           2           6      6.390     7.280      5.849     4.682      -0.014      0.116     -0.126     -0.112        -0.021        0.091       -0.101       -0.080
+pull requests opened: switchers minus stayers, log change +0.027 [-0.069, +0.122] p=0.5845 = +2.7% [-6.7%, +13.0%] | RE +0.027 I2=0.00 k=6
+   switchers' own log change -0.091, stayers' -0.118 (same weights)
+pull requests merged within 7 days: switchers minus stayers, log change +0.023 [-0.050, +0.097] p=0.5335 = +2.4% [-4.9%, +10.2%] | RE +0.030 I2=0.30 k=6
+   switchers' own log change -0.069, stayers' -0.092 (same weights)
+################ review_checks
+== events collected after the plan (3, 4, 6, 7, 8) vs the pre-specified pool (1, 3, 4, 6, 7, 8)
+[five] interaction +0.18 [-3.47, +3.83] p=0.9217 | RE +0.28 [-3.55, +4.10] I2=0.05 k=5
+[five] change, all pull requests -0.88 [-1.95, +0.18] p=0.1041 | RE -0.88 [-1.95, +0.18] I2=0.00 k=5
+[five] change, insiders -0.94 [-2.01, +0.12] p=0.0822 | RE -1.04 [-2.40, +0.32] I2=0.22 k=5
+[five] change, outside authors -0.66 [-4.06, +2.74] p=0.7041 | RE -0.66 [-4.06, +2.74] I2=0.00 k=5
+[six] interaction +1.08 [-2.43, +4.59] p=0.5463 | RE +1.86 [-2.85, +6.56] I2=0.31 k=6
+[six] change, all pull requests -0.82 [-1.88, +0.23] p=0.1251 | RE -0.82 [-1.88, +0.23] I2=0.00 k=6
+[six] change, insiders -0.95 [-2.00, +0.10] p=0.0763 | RE -0.96 [-2.06, +0.13] I2=0.03 k=6
+[six] change, outside authors +0.49 [-2.73, +3.71] p=0.7644 | RE +0.85 [-3.10, +4.81] I2=0.22 k=6
+switchers in the five events: 1208 | with outside-author PRs in both windows: 161
+
+== insiders limited to OWNER (MEMBER and COLLABORATOR dropped) vs outside authors
+ event  prs  dropped_member_collab_pct  inter    se  owner  owner_se
+     1  317                      28.44  15.04  7.05  -3.35      5.24
+     3 1044                      31.13 -10.86 12.99  -2.70      3.38
+     4 3125                      10.25  -2.59  2.74   0.14      1.05
+     6 4902                      10.50   2.95  3.79  -1.14      0.84
+     7 3597                      10.08  -4.05  8.43   0.46      0.77
+     8  884                       8.58   7.29  4.77  -5.06      2.70
+[six] interaction (outside authors minus owners) +1.27 [-2.39, +4.93] p=0.4973 | RE +2.30 [-3.32, +7.93] I2=0.44 k=6
+[six] change for owners -0.42 [-1.36, +0.53] p=0.3889 | RE -0.51 [-1.66, +0.63] I2=0.17 k=6
+[five] interaction (outside authors minus owners) +0.23 [-3.57, +4.03] p=0.9063 | RE +0.48 [-3.98, +4.93] I2=0.16 k=5
+[five] change for owners -0.39 [-1.34, +0.56] p=0.4203 | RE -0.53 [-1.79, +0.73] I2=0.30 k=5
+
+== overlapping windows
+switchers in event 7: 458, event 8: 118, in both: 17
+switcher-events 1262, distinct developers 1145
+without event 7: interaction +1.25 [-2.34, +4.84] p=0.4955 | RE +2.39 [-2.97, +7.75] I2=0.43 k=5
+without event 7: change, all pull requests -0.77 [-1.85, +0.32] p=0.1662 | RE -0.77 [-1.85, +0.32] I2=0.00 k=5
+without event 7: benchmark comparison [3, 4, 6, 8] change -0.83 vs prediction +1.04, difference -1.87 [-2.97, -0.77]
+without event 8: interaction +0.15 [-3.66, +3.96] p=0.9371 | RE +0.87 [-4.40, +6.14] I2=0.30 k=5
+without event 8: change, all pull requests -0.66 [-1.75, +0.42] p=0.2321 | RE -0.66 [-1.75, +0.42] I2=0.00 k=5
+without event 8: benchmark comparison [3, 4, 6, 7] change -0.72 vs prediction +1.11, difference -1.83 [-2.93, -0.73]
+stacked [six] change -1.32 [-2.79, +0.15] | interaction -0.42 [-4.97, +4.14] | clusters 1145
+stacked [five] change -1.41 [-2.91, +0.09] | interaction -0.95 [-5.71, +3.82] | clusters 1098
+
+== observed change as a share of the proportional-transfer prediction
+pre-specified: observed -0.88 [-1.95, +0.18], prediction +1.14; share -0.78 [-1.71, +0.16]
+calendar-controlled: observed -1.12 [-3.09, +0.86], prediction +1.33; share -0.84 [-2.33, +0.65]
+
+== Claude Code PR footer in tagged PR bodies, change around upgrades against stayers
+ event  n_sw  sw_all  sw_before  sw_after  st_before  st_after    did    se
+     1   443   14.67      20.00      9.42      19.72     24.14  -8.20 12.25
+     3  1516   10.82       7.27     14.36       5.52      1.74  -2.25  2.43
+     4  3482   10.43      15.11      7.00       1.65      5.45 -12.22  4.57
+     6  5477    4.22       3.34      5.39       2.84      3.87  -1.05  2.12
+     7  4000   13.80      15.46     12.17      36.25     34.01   2.57  4.05
+     8   967   23.37      15.32     31.40      12.31     21.81  -3.28  5.45
+pooled calendar-controlled change in footer share (points) -2.2 [-4.9, +0.4] p=0.1005 | RE -2.6 [-6.0, +0.9] I2=0.26 k=6
+share of switchers' tagged PR bodies with the Claude Code PR footer, all six events: 10.1% of 15885 PRs
+
+== commit-level attribution for a random sample of merged, tagged switcher PRs
+sampled 200, searched 200, with commits by the author found 195, with a model-named co-author line 152 (77.9% of found)
+commit lines name the PR's model: 133 (87.5%); name only other models: 19 (12.5%)
+   before: 76 PRs with model lines in commits, agreement 94.7%
+   after: 76 PRs with model lines in commits, agreement 80.3%
+models named in commits when they differ from the PR: {('Opus 5.5', "['Opus 5']"): 6, ('Opus 4.8', "['Opus 4.7']"): 4, ('Opus 5', "['Fable 5', 'Opus 4.8']"): 1, ('Opus 5', "['Fable 5.1']"): 1, ('Opus 5', "['Haiku 4.5', 'Opus 4.8', 'Sonnet 5']"): 1, ('Opus 5', "['Opus 4.8']"): 1, ('Opus 5', "['Opus 4.8', 'Sonnet 4.6', 'Sonnet 5']"): 1, ('Opus 5.5', "['Opus 5', 'Sonnet 5']"): 1, ('Sonnet 5', "['Opus 5', 'Opus 5.5']"): 1, ('Sonnet 5', "['Opus 5']"): 1}
+
+== commit check with a tight window (1 day before opening to 1 day after merging)
+sampled 200, with commits by the author found 194, with a model-named co-author line 138
+cat     other only  same only  same plus other  All
+side                                               
+after            1         38               29   68
+before           3         45               22   70
+All              4         83               51  138
+   before: 70 PRs, commits name the PR's model 95.7%, name only other models 4.3%
+   after: 68 PRs, commits name the PR's model 98.5%, name only other models 1.5%
+models named in commits when they differ from the PR: {('before', 'Sonnet 5', "['Opus 5.5']"): 2, ('after', 'Opus 5', "['Sonnet 5']"): 1, ('before', 'Opus 4.8', "['Sonnet 5']"): 1}
+################ trend_check
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+treated PR-weighted phase midpoints: {'P0': '2026-06-02 13:25', 'P1': '2026-06-11 10:45', 'P2': '2026-06-21 13:00', 'P3': '2026-07-08 00:13'}
+days from P1 to P2: 10.1; from P2 to P3: 16.5
+merged_7d: reversal contrast with treated-group linear trend +1.6 [-1.0, +4.3]; trend per week -0.6 [-2.9, +1.8]
+merged_7d: without the trend +1.4 [-1.4, +4.3]
+closed_unmerged: reversal contrast with treated-group linear trend -0.7 [-2.9, +1.6]; trend per week +0.7 [-1.6, +2.9]
+closed_unmerged: without the trend -0.5 [-3.0, +2.1]
+Fable-tagged share of treated PRs by phase: {'P0': 0.1, 'P1': 82.3, 'P2': 0.9, 'P3': 26.9}
+merged_7d: reversal contrast +1.4 [-1.4, +4.3]; mean take-up difference 53.7 points; per-use (Wald) +2.7 [-2.6, +8.0]
+   P1 term +0.7 [-3.7, +5.1] / take-up difference 81.4 -> per-use +0.8 [-4.6, +6.2]
+   P3 term +2.2 [-1.6, +6.1] / take-up difference 26.0 -> per-use +8.5 [-6.3, +23.4]
+################ subst
+== treated: 302 developers, 76924 pull requests May 26 to Jul 15 (phases only), 6355 with a Claude line
+   P0: 245 developers with any PR, 69 with a Claude PR; 21386 PRs, 1436 Claude (6.7%); PRs per developer-day 4.801, Claude 0.322
+   P1: 298 developers with any PR, 297 with a Claude PR; 9210 PRs, 1523 Claude (16.5%); PRs per developer-day 9.759, Claude 1.614
+   P2: 253 developers with any PR, 84 with a Claude PR; 24399 PRs, 1629 Claude (6.7%); PRs per developer-day 5.049, Claude 0.337
+   P3: 234 developers with any PR, 78 with a Claude PR; 21929 PRs, 1767 Claude (8.1%); PRs per developer-day 5.187, Claude 0.418
+== control: 320 developers, 72405 pull requests May 26 to Jul 15 (phases only), 5224 with a Claude line
+   P0: 315 developers with any PR, 315 with a Claude PR; 30630 PRs, 3147 Claude (10.3%); PRs per developer-day 6.489, Claude 0.667
+   P1: 217 developers with any PR, 36 with a Claude PR; 5546 PRs, 275 Claude (5.0%); PRs per developer-day 5.546, Claude 0.275
+   P2: 258 developers with any PR, 80 with a Claude PR; 21168 PRs, 1161 Claude (5.5%); PRs per developer-day 4.134, Claude 0.227
+   P3: 221 developers with any PR, 57 with a Claude PR; 15061 PRs, 641 Claude (4.3%); PRs per developer-day 3.362, Claude 0.143
+
+== difference-in-differences of log(1 + pull requests per day), treated minus control, phase vs P2
+   all pull requests, P0 vs P2: -0.406 [-0.523, -0.288] = -33.3% [-40.7%, -25.0%]; treated own change +0.013, control +0.419
+   all pull requests, P1 vs P2: +0.602 [+0.481, +0.722] = +82.5% [+61.8%, +105.9%]; treated own change +0.794, control +0.192
+   all pull requests, P3 vs P2: +0.079 [-0.025, +0.184] = +8.2% [-2.5%, +20.1%]; treated own change -0.075, control -0.154
+   Claude-tagged pull requests, P0 vs P2: -0.202 [-0.253, -0.152] = -18.3% [-22.3%, -14.1%]; treated own change -0.005, control +0.198
+   Claude-tagged pull requests, P1 vs P2: +0.583 [+0.511, +0.655] = +79.1% [+66.7%, +92.5%]; treated own change +0.583, control -0.000
+   Claude-tagged pull requests, P3 vs P2: +0.055 [+0.009, +0.102] = +5.7% [+0.9%, +10.7%]; treated own change +0.019, control -0.036
+
+== treated developers active in P2: any PR vs Claude PR
+   any PR in P2 253; Claude PR in P2 84; any PR in P2 but no Claude PR 169
+   among developers with any PR in P1 and P2: Claude share of their PRs P1 16.2%, P2 6.7%
+################ merger
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+sampled 2019 (outside 1019, insider 1000); looked up 2019; usable 2019; errors 0
+
+== (a) who merged, among merged pull requests
+   insider: 919 merged; merged by the author 96.8%; by phase P0 98% (n=234), P1 97% (n=238), P2 98% (n=217), P3 94% (n=230)
+   outside: 956 merged; merged by the author 94.1%; by phase P0 86% (n=105), P1 93% (n=233), P2 96% (n=278), P3 96% (n=340)
+   outside-author pull requests merged by a bot account: 10
+
+== (b) contrasts with merger-based status (developer x repository pairs with a merged pull request: 301, of which someone else merges: 30)
+   [someone else merges (by merger)] treated PRs 65, developers 16: reversal -8.7 [-41.4, +24.0], as used -2.7 [-21.7, +16.4]
+   [author merges own work (by merger)] treated PRs 1931, developers 173: reversal +4.3 [+0.0, +8.6], as used +7.3 [+1.3, +13.3]
+   [outside author (association)] treated PRs 1016: reversal +2.4 [-4.6, +9.3], as used +10.8 [+0.4, +21.3]
+   [insider (association), sampled] treated PRs 999: reversal +4.7 [+0.8, +8.7], as used +3.5 [+0.6, +6.4]
+
+== (c) pull request size, within developer (sampled treated pull requests with size fields)
+   1590 pull requests, median lines changed: Fable 5 107, Opus 4.8 114
+   log(1 + lines changed): Fable 5 minus Opus 4.8 within developer +0.149 [-0.096, +0.395] (54 developers, 1262 pull requests)
+   files changed: Fable 5 minus Opus 4.8 within developer +4.134 [-6.284, +14.551] (54 developers, 1262 pull requests)
+################ revert
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+== suspension sample
+   revert-titled pull requests collected: 386 in 82 repositories
+   treated merged pull requests 5878; reverted within 30 days 17 (0.29%)
+   by phase: {'P0': '0.16% (n=1288)', 'P1': '0.28% (n=1440)', 'P2': '0.40% (n=1500)', 'P3': '0.30% (n=1650)'}
+   by model: {'Fable 5': '0.30% (n=1661)', 'Opus 4.8': '0.30% (n=2635)'}
+   reverted within 30 days (merged pull requests; control rows carry the day effects with reverted = 0): reversal -0.0 [-0.4, +0.4], as used -0.1 [-0.3, +0.1]
+   merged within 7 days and not reverted within 30: reversal +1.5 [-1.6, +4.5], as used +2.8 [-0.7, +6.2]
+
+== upgrade events
+   revert-titled pull requests collected: 3919 in 569 repositories
+ event  prs  merged  rev_before  rev_after  n_before  n_after  k_before  k_after   est   se
+     3 1516    1358        0.30       0.00       675      683         2        0 -3.85 2.89
+     4 3482    3287        0.44       0.00      1369     1918         6        0  0.21 0.91
+     6 5477    5298        0.13       0.09      3060     2238         4        2 -0.68 0.81
+     7 4000    3826        0.11       0.00      1897     1929         2        0 -1.56 2.18
+     8  967     931        0.43       0.00       470      461         2        0 -2.86 2.36
+   reverted within 30 days, all five events: before the switch 16 of 7471 merged, after 2 of 7229
+   merged within 7 days and not reverted within 30, five events pooled: -0.6 [-1.7, +0.4]
+################ eventstudy
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+== event study: treated x period, reference Jun 22-28 (suspension); seven-day merge share, percentage points
+period                                     estimate  treated PRs  developers  Fable share %  merged %
+May 26-Jun 1                      -1.5 [-9.0, +6.0]          636          39            0.0      89.0
+Jun 2-9 (to 18:00)                -2.5 [-8.8, +3.8]          797          54            0.1      89.5
+Jun 9-12 (Fable 5 on)             +1.1 [-4.2, +6.4]         1523         297           82.3      94.2
+Jun 15-21                         +0.8 [-2.5, +4.2]          945          59            1.2      92.6
+Jun 22-28 (reference)                 0 (reference)          576          46            0.3      89.4
+Jun 29-30                         +0.4 [-5.3, +6.0]          108          22            1.9      90.7
+Jul 2-8                           +3.6 [+0.2, +7.1]         1130          67           25.4      94.7
+Jul 9-15                         +1.2 [-8.1, +10.5]          637          46           29.7      89.8
+
+control merged % by period: {'May 26-Jun 1': np.float64(92.5), 'Jun 2-9 (to 18:00)': np.float64(91.6), 'Jun 9-12 (Fable 5 on)': np.float64(92.5), 'Jun 15-21': np.float64(89.2), 'Jun 22-28 (reference)': np.float64(89.7), 'Jun 29-30': np.float64(89.9), 'Jul 2-8': np.float64(90.6), 'Jul 9-15': np.float64(90.1)}
+treated merged % by period: {'May 26-Jun 1': np.float64(89.0), 'Jun 2-9 (to 18:00)': np.float64(89.5), 'Jun 9-12 (Fable 5 on)': np.float64(94.2), 'Jun 15-21': np.float64(92.6), 'Jun 22-28 (reference)': np.float64(89.4), 'Jun 29-30': np.float64(90.7), 'Jul 2-8': np.float64(94.7), 'Jul 9-15': np.float64(89.8)}
+################ reviews
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+sampled 2019; reviews read 2019; errors 0
+
+== merged pull requests in the sample: 1875
+   any review by another account 17.7%; by another non-bot account 10.2%
+   APPROVED by another account 7.1%; by another non-bot account 7.1%
+   CHANGES_REQUESTED by another account 0.5%; a review by the author 8.1%
+   merged by the author AND no approval from another non-bot account: 90.3%
+   merged by the author with an approval from another non-bot account: 5.2%
+   merged by someone else: 4.5%, of which with their or another account's approval 1.9%
+   by grp: insider n=919 approved-by-other 7.6%, any-other-review 11.3%; outside n=956 approved-by-other 6.6%, any-other-review 9.1%
+   by phase: P0 n=339 approved-by-other 11.8%, any-other-review 16.5%; P1 n=471 approved-by-other 5.7%, any-other-review 6.4%; P2 n=495 approved-by-other 4.4%, any-other-review 9.1%; P3 n=570 approved-by-other 7.7%, any-other-review 10.5%
+   by model: Fable 5 n=564 approved-by-other 4.3%, any-other-review 4.6%; Haiku 4.5 n=2 approved-by-other 0.0%, any-other-review 0.0%; MIXED n=4 approved-by-other 50.0%, any-other-review 50.0%; Opus 4.6 n=48 approved-by-other 4.2%, any-other-review 43.8%; Opus 4.7 n=109 approved-by-other 15.6%, any-other-review 16.5%; Opus 4.8 n=929 approved-by-other 6.7%, any-other-review 8.3%; Sonnet n=1 approved-by-other 0.0%, any-other-review 0.0%; Sonnet 4.5 n=1 approved-by-other 0.0%, any-other-review 0.0%; Sonnet 4.6 n=24 approved-by-other 0.0%, any-other-review 0.0%; Sonnet 5 n=18 approved-by-other 5.6%, any-other-review 5.6%; untagged n=175 approved-by-other 14.3%, any-other-review 26.3%
+
+== unmerged pull requests in the sample: 144; any review by another non-bot account 10.4%; CHANGES_REQUESTED 3.5%
+
+== contrasts by whether the developer x repository pair had an approval from another non-bot account on a merged pull request (pairs 301, with such an approval 30)
+   [pairs with an approval from someone else] treated PRs 559, developers 20: reversal +7.5 [+1.8, +13.1], as used +9.4 [-1.6, +20.3]
+   [pairs with none] treated PRs 1437, developers 170: reversal +2.4 [-2.3, +7.2], as used +6.1 [-1.4, +13.5]
+   approved by another non-bot account, Fable 5 minus Opus 4.8 within developer: +0.7 points [-1.6, +3.0] (52 developers, 1179 merged pull requests)
+   changes requested by another account, Fable 5 minus Opus 4.8 within developer: +0.1 points [-1.2, +1.4] (52 developers, 1179 merged pull requests)
+################ allprs
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+all pull requests: treated 76907 from 297 developers; comparison 72405 from 315 developers; days 48
+treated, by phase: P0 n=21377, merged-7d 92.7%, Fable share 0.0%, any Claude line 6.5%; P1 n=9202, merged-7d 94.6%, Fable share 13.6%, any Claude line 16.1%; P2 n=24399, merged-7d 91.8%, Fable share 0.1%, any Claude line 5.7%; P3 n=21929, merged-7d 90.5%, Fable share 2.2%, any Claude line 5.3%
+[per pull request] P0 placebo -1.6 [-4.2, +1.1]; P1 -0.1 [-3.2, +3.1]; P3 +1.0 [-2.5, +4.5]; reversal +0.5 [-2.3, +3.3]; per Fable 5 pull request on this base (dose 7.8 points) +5.9 [-29.9, +41.8]
+[per developer] P0 placebo -0.2 [-3.1, +2.8]; P1 +6.0 [+1.6, +10.4]; P3 +1.2 [-3.2, +5.6]; reversal +3.6 [+0.1, +7.1]; per Fable 5 pull request on this base (dose 7.8 points) +45.8 [+1.1, +90.4]
+developer-level mean, Fable phases minus suspension, treated developers with pull requests in both: +1.0 [-1.1, +3.3], n=253
+################ outcome_defs
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+suspension merged within 1 hour: reversal -0.0 [-5.8, +5.8]; placebo +7.8 [-2.4, +18.0]
+suspension merged within 1 day: reversal +0.5 [-4.1, +5.1]; placebo -2.9 [-7.2, +1.5]
+suspension merged within 7 days (main): reversal +1.4 [-1.4, +4.3]; placebo -2.6 [-6.2, +1.1]
+suspension merged within 28 days: reversal +0.6 [-2.1, +3.3]; placebo -3.2 [-6.7, +0.3]
+suspension merged within 7 days, not reverted within 30: reversal +1.5 [-1.6, +4.5]; placebo -2.5 [-6.1, +1.2]
+suspension time to merge: {'design': 'suspension', 'contrast': 'Fable phases minus suspension, log(1+hours), developer and day FE', 'estimate': np.float64(0.08074943112941343), 'ci_low': np.float64(-0.09445861425052174), 'ci_high': np.float64(0.25595747650934864), 'pct_change': np.float64(8.409922101405032), 'pct_low': np.float64(-9.013461069209816), 'pct_high': np.float64(29.169779927254112)}
+upgrades merged within 1 hour: -0.0 [-1.9, +1.8]  I2=0.32
+upgrades merged within 1 day: -0.8 [-2.1, +0.6]  I2=0.33
+upgrades merged within 7 days (main): -0.9 [-1.9, +0.2]  I2=0.00
+upgrades merged within 28 days: -0.3 [-1.3, +0.8]  I2=0.07
+upgrades merged within 7 days, not reverted within 30: -0.6 [-1.7, +0.4]  I2=0.00
+upgrades time to merge: {'design': 'upgrades', 'contrast': 'after minus before, log(1+hours), developer FE, 5 events pooled', 'estimate': np.float64(0.02393632669862243), 'ci_low': np.float64(-0.021506590572215392), 'ci_high': np.float64(0.06937924396946026), 'pct_change': np.float64(2.4225100020852874), 'pct_low': np.float64(-2.127697289689723), 'pct_high': np.float64(7.184262192925406)}
+written
+################ table1
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+entropy balancing: converged False; max |weighted moment| = 6.66e-09; effective n 312.6 of 315; max weight 1.12
+unweighted (all-pull-request model, comparison developers with P0 pull requests) reversal +0.5 [-2.3, +3.3]; placebo -1.6 [-4.2, +1.1]
+entropy-balanced comparison reversal +0.4 [-2.4, +3.3]; placebo -1.9 [-4.6, +0.9]
+written
+################ robust2
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+linear, CR1 by developer: reversal +1.4 [-1.4, +4.3]; P0 placebo -2.6 [-6.2, +1.1]
+linear, two-way developer and repository: reversal +1.4 [-1.4, +4.3]; P0 placebo -2.6 [-6.2, +1.1]
+logit (treated-developer and day dummies; 59 treated developers with variation in the outcome), average marginal effects: reversal +0.6 [-2.3, +3.5]; P0 placebo -2.9 [-7.9, +2.0]
+################ sens_cap twfe
+rows 40365 | treated PRs 6352 devs 297 | control PRs 34013 devs 8908 | days 48
+top developers' share of PRs: 4.6 15.3 % (top1, top5)
+cap 20: reversal +3.6 [-1.1, +8.3]  P0 +0.3 [-7.3, +7.8]
+cap 20: as used +3.9 [+0.0, +7.8]
+cap 50: reversal +3.4 [-0.7, +7.5]  P0 +0.5 [-5.8, +6.8]
+cap 50: as used +4.6 [+0.7, +8.6]
+################ sens_cap twfe_feb
+rows 27483 developers 6986 days 128
+top developers' share of PRs: 4.1 8.0 % (top1, top5)
+cap 20: Opus +3.0 [-2.9, +9.0]  Sonnet +3.3 [-4.4, +11.0]
+cap 50: Opus +4.7 [-1.8, +11.2]  Sonnet +5.8 [-2.5, +14.0]
+################ snapshot
+     4069 data/cc_opus45.jsonl
+    17622 data/cc_opus46.jsonl
+     5743 data/cc_sonnet45.jsonl
+     3735 data/cc_sonnet46.jsonl
+     1584 data_fable/fable_jun.jsonl
+        0 data_fable/opus48_p0.jsonl
+    47202 data_fable/opus48_pop.jsonl
+      868 data_fable/users_control.jsonl
+     7234 data_fable/users_treated.jsonl
+     5002 data_fable/weekly_fable.jsonl
+     5765 data_fable/weekly_opus48.jsonl
+     2912 events/e3_new.jsonl
+     2649 events/e3_old.jsonl
+     3712 events/e4_new.jsonl
+     5100 events/e4_old.jsonl
+     4119 events/e5_new.jsonl
+     3787 events/e5_old.jsonl
+     6880 events/e6_new.jsonl
+     7879 events/e6_old.jsonl
+     9266 events/e7_new.jsonl
+     7163 events/e7_old.jsonl
+     1953 events/e8_new.jsonl
+     5003 events/e8_old.jsonl
+     1308 calendar/c3_sonnet46.jsonl
+     1478 calendar/c4_sonnet46.jsonl
+    11260 calendar/c6_sonnet5.jsonl
+    11637 calendar/c7_sonnet5.jsonl
+    17362 calendar/c8_opus55.jsonl
+      679 volume/v1.jsonl
+     1802 volume/v3.jsonl
+     3948 volume/v4.jsonl
+     9685 volume/v6.jsonl
+     7511 volume/v7.jsonl
+     6628 volume/v8.jsonl
+      200 review/attrib.jsonl
+      200 review/attrib_tight.jsonl
+    79833 subst/control_all.jsonl
+    84137 subst/treated_all.jsonl
+      238 merger/out_0.jsonl
+      235 merger/out_1.jsonl
+      255 merger/out_2.jsonl
+      303 merger/out_3.jsonl
+      240 merger/out_4.jsonl
+      243 merger/out_5.jsonl
+      257 merger/out_6.jsonl
+      248 merger/out_7.jsonl
+     6286 revert/reverts_events.jsonl
+      884 revert/reverts_suspension.jsonl
+      253 reviews/out_0.jsonl
+      253 reviews/out_1.jsonl
+      253 reviews/out_2.jsonl
+      252 reviews/out_3.jsonl
+      252 reviews/out_4.jsonl
+      252 reviews/out_5.jsonl
+      252 reviews/out_6.jsonl
+      252 reviews/out_7.jsonl
+   408123 total
+b359e4e398dd8a678f74d6a9e0bfbdb05038bb46eaca8d01c4009a12e4d10a82  data/cc_opus45.jsonl
+47dcf2bd63c63df5a8d754914d18e229fff424101c4250fa9d694ec08ec561fe  data/cc_opus46.jsonl
+743ec3cab8afc53cd952f93dee13f716d0a789746d69018c34023bc72066ea7c  data/cc_sonnet45.jsonl
+017d05514275fc76b3e6e275b146fc4f1a3c7fb8c03291d1e493b996d58a7b6f  data/cc_sonnet46.jsonl
+2ade2c4499942d4e18324cdbdd256f33bed22ca702398ad9733b40ddcb7a09ea  data_fable/fable_jun.jsonl
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  data_fable/opus48_p0.jsonl
+2fa7f8e30d8f25200affef0a180f485b0bb1e9515cc1c73396fd84356478b240  data_fable/opus48_pop.jsonl
+8f289fa5267c5ab1ab794acbf03523f4dc4fda0bdd8cb0d477f91c02b38d0663  data_fable/users_control.jsonl
+6d548d170e796c154975392cd85ddaa30a1ddf4dec9fb0e7c04e707efa34ff8a  data_fable/users_treated.jsonl
+bf8103ca13ea6652e0567f1e9abf0bc3f8dd369d6e336216b54b52f2b9c1b329  data_fable/weekly_fable.jsonl
+ddf919529aa7acd88e04d2b0fe2db5297a57490005f13eec55977e260bd464f8  data_fable/weekly_opus48.jsonl
+f7f1fadd8c5b44fe6c61ef27605803a24b1d2ebc8599c827099ba19a571d92c5  events/e3_new.jsonl
+f917f5202f5c47cdd8470b1802dbc1d1dd9ff59186bdfeaa111476cfc8d1fc64  events/e3_old.jsonl
+3bfb7e397d37d02e92db2558d682dd10811edcc3f3fa95dd331e70bcadf63748  events/e4_new.jsonl
+36510969069e7a6325d2dcb613729efa7018f67d108db5fba07d59ac65b1bf97  events/e4_old.jsonl
+4ea9fbc050d7a851be23482be88f54004dad014c3c7f2a11e7d0d0f5f69cf943  events/e5_new.jsonl
+c9cf8a99bc8ba0c03a1cf00e0e10ef79b24d308803faa2e4f1c4b07e3fb35985  events/e5_old.jsonl
+5862f28c0a0a7f9998dd4eb6d10dc568581033cb3de4e00f1fd95ccabe65bb91  events/e6_new.jsonl
+c814615fa53ebed97774cd5514bb3fe653a435b71f0e80298748086214e20d93  events/e6_old.jsonl
+4853e9747215e2cf76626e8ec7ec4aeefc1c8a340aaf93301ff846536434d643  events/e7_new.jsonl
+4bf83ed2504e514e83a17593d09b6c71e28828abea84eaad768c67e6f708278c  events/e7_old.jsonl
+31a4ff628ee397ac64de0327167e979a2bdcc485594f2f75eeb31bc4048e8458  events/e8_new.jsonl
+4b03b58b746eea3bb3693727bfdad210439bdf0ea9dbf9f15d21c686f291a8c5  events/e8_old.jsonl
+0f1e13f04d130c313f0ab363087140c861503e32374e19645d015ad5c7af13ae  calendar/c3_sonnet46.jsonl
+65fb6ebc7885b063a216825964dd464a96f2ec51d550d0e4a0bef0ea86ccbe3a  calendar/c4_sonnet46.jsonl
+ad5c2b777d5ee2a3b06387245b7ac042a48a93bac6826cc7cfc8b590e4b0bbed  calendar/c6_sonnet5.jsonl
+ddafc679d8226e169d9593f280d5460619c7b5e4f64e005a53037c83bb19993f  calendar/c7_sonnet5.jsonl
+08818884e358dd6e337a9b2cf01e4bb8fe9db57e293f64afffd9333c5f89fd0e  calendar/c8_opus55.jsonl
+42ec9296fa65e798eeb2a4b43835a697b047e62ce0cf6690e075a743ffef5ee0  volume/v1.jsonl
+18bf411e177bd272c3220e3b5672202238349958de5935fbeed844a700d087c5  volume/v3.jsonl
+d9b43b12c95c2a9b15743b478cda347ac559af58f715c9b53dcf0bff79f8b788  volume/v4.jsonl
+4d8a6cbd7a873ce5ea0a9cee7ef64eb52344f28b75ce5263dcc289a796bb08f1  volume/v6.jsonl
+0558d9210553f0664dc1d59d4b7d2b19187de664ecd1fa6734331cb7050715eb  volume/v7.jsonl
+cf4bb9ca72c1d7f81ba82a0050eeb89ce596c52e46bb2466bf392d23bf981ac0  volume/v8.jsonl
+8952a7dff30ce55c0ed65c485f3b1a58d7eff80b471b2468f80d061eafe26ec6  volume/groups.json
+3870856d9b971583128d01e1c9af3101ce5550e9098bd14d88c2e9d169dc16d4  review/attrib.jsonl
+75cb2bf7ace52a44a9737a9262329dd831c5a8f592c1763c182a198bafb134ae  review/attrib_tight.jsonl
+f87aea92167324fea77cdce705fe41e388b2e331cca630a602829637f358c157  subst/control_all.jsonl
+c12c6eaf51ba4ce2b858c8ec057b4c163793b11ba420bc3ef655a3d780a99333  subst/treated_all.jsonl
+bbca637c4a9431e93dc656bcca6dc7dc65666a1bcb796aec31f7dfcebfbed72d  merger/out_0.jsonl
+9209a3957984a4e0f8cd9510840411840f54ecd19d6d144e9f52e92d2533dd4d  merger/out_1.jsonl
+2d7a68114f19df05b078b4fae56edbc1c61705543e403b00c844054b32a83dc6  merger/out_2.jsonl
+ebfb4747bc03203ef137659ecc9f666633f4f19c2b72fd1d003d806e5adae801  merger/out_3.jsonl
+538ab5d078b34a84df41f2bfe4af1ee6c94eb7a6a2406bf1e12d0883af4e8a5e  merger/out_4.jsonl
+6acef2eda82bad3b5fe7c290f0e8272ba3a790c9b37508bb0531f174aedccab3  merger/out_5.jsonl
+adde675630228de3002404658c807828bd4c8259665bd59aabadaea283d0daff  merger/out_6.jsonl
+4c0ebf4e9a8f54d82de2f81f84a676c6c2ac759dc93d13ba32ecaeadde91da84  merger/out_7.jsonl
+467c98854fdcbc9044c4c5d4781ff00038173fa5072623ae93b41ac428d1e812  revert/reverts_events.jsonl
+74dbd0bb18bad9f5275abb477e8a03cf287149ee87a4ae62e35c970726063ea8  revert/reverts_suspension.jsonl
+cdf75ab03b4bee546b47f16e863c6e751e63717ed05d0daa2260ee73a37d3ced  reviews/out_0.jsonl
+ff65f73bffd2b89e1256cb33a00ab689f724f59ccfce5923f2bfa2167f5a508b  reviews/out_1.jsonl
+d9a0a4b74c62c9d36413d1f7e90c261fe49b194f7cbc7a0c72e7fcc88487d765  reviews/out_2.jsonl
+d9ee1cbafd6ac74e4faef110c20e795b6a61de70b10e6cea0c2b0287071d1895  reviews/out_3.jsonl
+e760cb854cd98d4df9eff6347d8ce53ab7c8f16878b033697681bf0dda4b87a2  reviews/out_4.jsonl
+df4e4045149f9f5c19398e6e56e6b1bc6c0d854a2f771331789f82f32dd2d84f  reviews/out_5.jsonl
+87e9bc04e289099759b601e8e4fd55e31f07748b92473008420b39fc41fa8d11  reviews/out_6.jsonl
+768d472c050d8b8bb28c90ac269e968ae5de6ba2a1a177205b498592c642f302  reviews/out_7.jsonl
+ALLDONE

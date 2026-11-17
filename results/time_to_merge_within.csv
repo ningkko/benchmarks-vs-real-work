@@ -1,0 +1,3 @@
+design,contrast,estimate,ci_low,ci_high,pct_change,pct_low,pct_high
+suspension,"Fable phases minus suspension, log(1+hours), developer and day FE",0.08074943112941343,-0.09445861425052174,0.25595747650934864,8.409922101405032,-9.013461069209816,29.169779927254112
+upgrades,"after minus before, log(1+hours), developer FE, 5 events pooled",0.02393632669862243,-0.021506590572215392,0.06937924396946026,2.4225100020852874,-2.127697289689723,7.184262192925406
